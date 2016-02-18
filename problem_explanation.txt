@@ -1,0 +1,29 @@
+Ankit Kumar	akumar3@wpi.edu
+
+
+Semaphore Solution:
+
+The solution to our problem uses 4 binary semaphores: one for each runway and one for emergency conditions count.
+Each plane will be assigned random fuel values at first. When a plane enters the airspace, all the fuel values of all the planes which have arrived in the airspace is checked and a priority has been assigned to the plane with lowest fuel. The planes are then checked as to which plane has the priorty and which runway is free. The fuel keeps depleting until an appropriate landing situation arrives for a plane. If a runway is free, the binary semaphore is set down, the runway occupied value is changed and then semaphore is set up. It happens to each runways. Once the runway is decided, it calls a function which sets a random landing and clearing value of the plane. It then lands the plane and change the value of the runway by setting up and down the binary semaphore.
+
+
+Mutex Solution:
+
+The solution to our problem uses 4 mutexes: one for each runway and one for emergency conditions count.
+Each plane will be assigned random fuel values at first. When a plane enters the airspace, all the fuel values of all the planes which have arrived in the airspace is checked and a priority has been assigned to the plane with lowest fuel. The planes are then checked as to which plane has the priorty and which runway is free. The fuel keeps depleting until an appropriate landing situation arrives for a plane. If a runway is free, the mutex is locked, the runway occupied value is changed and then mutex is unlocked. It happens to each runways. Once the runway is decided, it calls a function which sets a random landing and clearing value of the plane. It then lands the plane and change the value of the runway by locking and unlocking the mutex.
+
+
+
+
+Question 1:  How can you ensure fairness? How is fairness affected by the amount of remaining fuel in each plane?
+
+If a plane arrives and there's no other planes waiting, it will get the first clear runway available to land the plane. However, when a runway is available the first priority is assigned to a plane with an emergency condition. After that, the priority goes to the plane in the queue which has the least fuel left (it could have arrived at anytime). So, Top priority will always be given to plane with emergency condition and next priority is given to plane with least fuel left.
+
+
+
+Question 2:   What needs to happen when a plane with an emergency landing arrives? Is it ever possible for an emergency landing to cause another plane to run out of fuel? Are there other scenarios in which plane crashes can occur? 
+
+When a plane with emergency status arrives, full priority is given to that plane. All other landing initiations are suspended until the emergency plane has cleared the runway. Even when there are several planes waiting, the emergency plane is given the top priority as soon as a runway is free.
+Yes, since emergency plane suspends other planes' landing iniation, it could cause heavy depletion of fuel and hence crashing the other plane. Yes, if the plane arrives with a fuel not enough to allow it to land (if landing+clearing time > fuel available), the plane will crash.
+
+
